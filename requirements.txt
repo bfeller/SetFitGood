@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+setfit
+scikit-learn
+sentence-transformers
+pydantic
+python-multipart
+# Flash Attention requires these:
+packaging
+ninja
+flash-attn>=2.0.0
+accelerate
+transformers>=4.38.0
