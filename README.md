@@ -37,6 +37,12 @@ A self-hosted, Dockerized API for training and serving [SetFit](https://github.c
 If the `API_KEY` environment variable is set, all requests (except `/health`) must include the header:
 `X-API-Key: <your_key>`
 
+**Helper Command**:
+To generate a secure random API key, you can run:
+```bash
+openssl rand -hex 32
+```
+
 ### 1. Health Check
 **GET** `/health`
 - **Response**: `{"status": "ok"}`
