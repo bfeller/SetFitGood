@@ -155,6 +155,32 @@ Get vector embeddings for a list of texts using the underlying sentence transfor
 }
 ```
 
+  ]
+}
+```
+
+## Model Selection & Compatibility
+
+The efficacy of SetFit depends heavily on the underlying **base model** used for generating embeddings.
+
+### Changing the Base Model
+You can use any compatible model by specifying the `base_model` parameter in your `/v1/train` request.
+
+### Supported Models
+The API supports any model compatible with the [Sentence Transformers](https://sbert.net/) library. This covers thousands of models on the Hugging Face Hub.
+
+**Recommended Models:**
+- **`Alibaba-NLP/gte-modernbert-base`** (Default): Excellent all-rounder, supports Flash Attention 2, 8k context window.
+- **`BAAI/bge-base-en-v1.5`**: Strong performance on retrieval tasks.
+- **`sentence-transformers/paraphrase-mpnet-base-v2`**: reliable, classic choice.
+- **`intfloat/e5-large-v2`**: High quality embeddings.
+
+**Note on Embeddings**:
+The vector length returned by `/v1/embeddings` changes based on the selected model:
+- `*-base` models usually have **768** dimensions.
+- `*-large` models usually have **1024** dimensions.
+- `*-MiniLM-*` models usually have **384** dimensions.
+
 ## Deployment
 
 ### Coolify (Self-Hosted)
