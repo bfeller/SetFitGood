@@ -155,9 +155,6 @@ Get vector embeddings for a list of texts using the underlying sentence transfor
 }
 ```
 
-  ]
-}
-```
 
 ## Model Selection & Compatibility
 
