@@ -18,7 +18,7 @@ class PredictRequest(BaseModel):
     texts: List[str]
 
 class EmbeddingRequest(BaseModel):
-    model_name: str
+    model_name: str = "sentence-transformers/all-MiniLM-L6-v2"
     texts: List[str]
 
 class EmbeddingResponse(BaseModel):

@@ -16,6 +16,17 @@ A self-hosted, Dockerized API for training and serving [SetFit](https://github.c
 - Docker
 - Docker Compose
 
+### Hugging Face Authentication (Optional)
+
+If you need to access private repositories, gated models (like Llama 3 or GTE-ModernBERT), or avoid rate limits, you must provide your Hugging Face User Access Token.
+
+1.  Get your token from [Hugging Face Settings](https://huggingface.co/settings/tokens).
+2.  Export it as an environment variable in your terminal:
+    ```bash
+    export HF_TOKEN=hf_your_token_here
+    ```
+    *Note: The `docker-compose.yml` is configured to pass this variable through to the container.*
+
 ### Running the API
 
 1. Clone the repository:

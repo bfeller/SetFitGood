@@ -9,10 +9,11 @@ services:
     environment:
       - MODEL_PATH=/app/models
       # - API_KEY=your_secret_key
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
+      - HF_TOKEN # Passes HF_TOKEN from host environment
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [ gpu ]
