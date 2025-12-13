@@ -46,7 +46,7 @@ class ModelManager:
              # check if it is a huggungface model
             try:
                 logger.info(f"Loading model {model_name} from HuggingFace Hub or local path with kwargs: {model_kwargs}...")
-                model = SetFitModel.from_pretrained(model_name, model_kwargs=model_kwargs)
+                model = SetFitModel.from_pretrained(model_name, model_kwargs=model_kwargs, trust_remote_code=True)
                 self.loaded_models[model_name] = model
                 return model
             except Exception as e:
@@ -54,7 +54,7 @@ class ModelManager:
                 raise ValueError(f"Model {model_name} not found.")
         
         logger.info(f"Loading model {model_name} from {model_path} with kwargs: {model_kwargs}...")
-        model = SetFitModel.from_pretrained(model_path, model_kwargs=model_kwargs)
+        model = SetFitModel.from_pretrained(model_path, model_kwargs=model_kwargs, trust_remote_code=True)
         self.loaded_models[model_name] = model
         return model
 
@@ -155,8 +155,13 @@ class ModelManager:
         
         return preds.tolist() # Convert numpy array to list
 
-    def get_embeddings(self, model_name: str, texts: List[str]):
+    def get_embeddings(self, model_name: str, texts: List[str], dimensions: int = None):
         model = self.load_model(model_name)
         # SetFitModel wraps a SentenceTransformer body
         embeddings = model.model_body.encode(texts)
+        
+        if dimensions:
+             # Matryoshka slicing or truncation
+             embeddings = embeddings[:, :dimensions]
+             
         return embeddings.tolist()

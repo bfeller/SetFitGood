@@ -18,8 +18,9 @@ class PredictRequest(BaseModel):
     texts: List[str]
 
 class EmbeddingRequest(BaseModel):
-    model_name: str = "sentence-transformers/all-MiniLM-L6-v2"
+    model_name: str = "NovaSearch/stella_en_400M_v5"
     texts: List[str]
+    dimensions: Optional[int] = 768
 
 class EmbeddingResponse(BaseModel):
     embeddings: List[List[float]]

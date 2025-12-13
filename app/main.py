@@ -107,7 +107,7 @@ def predict(request: PredictRequest):
 @app.post("/v1/embeddings", response_model=EmbeddingResponse, dependencies=[Depends(get_api_key)])
 def get_embeddings(request: EmbeddingRequest):
     try:
-        embeddings = model_manager.get_embeddings(request.model_name, request.texts)
+        embeddings = model_manager.get_embeddings(request.model_name, request.texts, request.dimensions)
         return EmbeddingResponse(embeddings=embeddings)
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))

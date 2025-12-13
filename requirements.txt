@@ -7,7 +7,8 @@ pydantic
 python-multipart
 # Flash Attention requires these:
 packaging
-ninja
-flash-attn>=2.0.0
+# flash-attn>=2.0.0
+# ninja
 accelerate
-transformers>=4.38.0
+transformers==4.39.0
+xformers
