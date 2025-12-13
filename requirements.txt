@@ -1,6 +1,7 @@
 fastapi
 uvicorn[standard]
-setfit
+huggingface-hub<0.24.0
+setfit==1.0.3
 scikit-learn
 sentence-transformers
 pydantic
@@ -12,3 +13,4 @@ packaging
 accelerate
 transformers==4.39.0
 xformers
+huggingface-hub<0.25.0

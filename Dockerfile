@@ -1,15 +1,23 @@
-# Use PyTorch image with CUDA support (devel needed for flash-attn compilation)
-FROM pytorch/pytorch:2.2.2-cuda12.1-cudnn8-devel
+# Use lightweight Python image
+FROM python:3.10-slim
 
-# prevent interactive prompts
+# Prevent interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Install system dependencies required for building
+RUN apt-get update && apt-get install -y \
+  build-essential \
+  git \
+  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 COPY requirements.txt .
 
-# Install dependencies
+# Install CPU-only Torch first to prevent downloading huge CUDA versions
+RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
+
+# Install other dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 
