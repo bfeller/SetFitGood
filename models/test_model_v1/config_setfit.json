@@ -2,7 +2,6 @@
   "normalize_embeddings": false,
   "labels": [
     "negative",
-    "neutral",
-    "positive"
+    "neutral"
   ]
 }

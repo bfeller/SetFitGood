@@ -1,21 +1,32 @@
 ---
+base_model: sentence-transformers/paraphrase-MiniLM-L3-v2
+library_name: setfit
+metrics:
+- accuracy
+pipeline_tag: text-classification
 tags:
 - setfit
 - sentence-transformers
 - text-classification
 - generated_from_setfit_trainer
 widget:
-- text: It is acceptable
-- text: I love this product
-- text: The service was okay
-- text: I hate this
 - text: This is the best thing ever
-metrics:
-- accuracy
-pipeline_tag: text-classification
-library_name: setfit
+- text: I love this product
 inference: true
-base_model: sentence-transformers/paraphrase-MiniLM-L3-v2
+model-index:
+- name: SetFit with sentence-transformers/paraphrase-MiniLM-L3-v2
+  results:
+  - task:
+      type: text-classification
+      name: Text Classification
+    dataset:
+      name: Unknown
+      type: unknown
+      split: test
+    metrics:
+    - type: accuracy
+      value: 0.0
+      name: Accuracy
 ---
 
 # SetFit with sentence-transformers/paraphrase-MiniLM-L3-v2
@@ -34,7 +45,7 @@ The model has been trained using an efficient few-shot learning technique that i
 - **Sentence Transformer body:** [sentence-transformers/paraphrase-MiniLM-L3-v2](https://huggingface.co/sentence-transformers/paraphrase-MiniLM-L3-v2)
 - **Classification head:** a [LogisticRegression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) instance
 - **Maximum Sequence Length:** 128 tokens
-- **Number of Classes:** 3 classes
+- **Number of Classes:** 2 classes
 <!-- - **Training Dataset:** [Unknown](https://huggingface.co/datasets/unknown) -->
 <!-- - **Language:** Unknown -->
 <!-- - **License:** Unknown -->
@@ -46,11 +57,17 @@ The model has been trained using an efficient few-shot learning technique that i
 - **Blogpost:** [SetFit: Efficient Few-Shot Learning Without Prompts](https://huggingface.co/blog/setfit)
 
 ### Model Labels
-| Label    | Examples                                                                      |
-|:---------|:------------------------------------------------------------------------------|
-| positive | <ul><li>'I love this product'</li><li>'This is the best thing ever'</li></ul> |
-| negative | <ul><li>'I hate this'</li><li>'This is terrible'</li></ul>                    |
-| neutral  | <ul><li>'The service was okay'</li><li>'It is acceptable'</li></ul>           |
+| Label    | Examples                                                            |
+|:---------|:--------------------------------------------------------------------|
+| neutral  | <ul><li>'It is acceptable'</li><li>'The service was okay'</li></ul> |
+| negative | <ul><li>'I hate this'</li><li>'This is terrible'</li></ul>          |
+
+## Evaluation
+
+### Metrics
+| Label   | Accuracy |
+|:--------|:---------|
+| **all** | 0.0      |
 
 ## Uses
 
@@ -70,7 +87,7 @@ from setfit import SetFitModel
 # Download from the 🤗 Hub
 model = SetFitModel.from_pretrained("setfit_model_id")
 # Run inference
-preds = model("I hate this")
+preds = model("I love this product")
 ```
 
 <!--
@@ -102,13 +119,12 @@ preds = model("I hate this")
 ### Training Set Metrics
 | Training set | Min | Median | Max |
 |:-------------|:----|:-------|:----|
-| Word count   | 3   | 3.8333 | 6   |
+| Word count   | 3   | 3.25   | 4   |
 
 | Label    | Training Sample Count |
 |:---------|:----------------------|
 | negative | 2                     |
 | neutral  | 2                     |
-| positive | 2                     |
 
 ### Training Hyperparameters
 - batch_size: (2, 2)
@@ -124,24 +140,23 @@ preds = model("I hate this")
 - end_to_end: False
 - use_amp: False
 - warmup_proportion: 0.1
-- l2_weight: 0.01
 - seed: 42
 - eval_max_steps: -1
 - load_best_model_at_end: False
 
 ### Training Results
-| Epoch  | Step | Training Loss | Validation Loss |
-|:------:|:----:|:-------------:|:---------------:|
-| 0.0833 | 1    | 0.0239        | -               |
+| Epoch | Step | Training Loss | Validation Loss |
+|:-----:|:----:|:-------------:|:---------------:|
+| 0.125 | 1    | 0.0069        | -               |
 
 ### Framework Versions
-- Python: 3.9.25
-- SetFit: 1.1.3
-- Sentence Transformers: 5.1.2
-- Transformers: 4.57.3
-- PyTorch: 2.8.0+cu128
-- Datasets: 4.4.1
-- Tokenizers: 0.22.1
+- Python: 3.10.19
+- SetFit: 1.0.3
+- Sentence Transformers: 3.1.1
+- Transformers: 4.39.0
+- PyTorch: 2.9.1+cu128
+- Datasets: 3.2.0
+- Tokenizers: 0.15.2
 
 ## Citation
 
