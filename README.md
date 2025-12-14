@@ -213,3 +213,14 @@ docker compose up --build -d
 ## License
 
 MIT License. See [LICENSE](LICENSE) for details.
+
+### Troubleshooting
+
+#### "Initialized with random weights" Warning
+If you see a warning like:
+> model_head.pkl not found on HuggingFace Hub, initialising classification head with random weights.
+
+This is **expected behavior** when loading a base model (like `stella_en_400M_v5`) for embeddings. The classification head is not used for embeddings.
+
+#### Flash Attention
+The service attempts to use Flash Attention 2 if available and a GPU is present. If not found, it falls back to standard attention.

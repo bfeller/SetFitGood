@@ -13,4 +13,4 @@ packaging
 accelerate
 transformers==4.39.0
 xformers
-huggingface-hub<0.25.0
+

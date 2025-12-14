@@ -25,6 +25,8 @@ class ModelManager:
 
         # Check for Flash Attention availability
         import torch
+        from sentence_transformers import SentenceTransformer
+
         use_flash_attn = False
         try:
             import flash_attn
@@ -42,21 +44,21 @@ class ModelManager:
             model_kwargs["torch_dtype"] = torch.float16 # FA2 requires fp16 or bf16
 
         model_path = self._get_model_path(model_name)
-        if not os.path.exists(model_path):
-             # check if it is a huggungface model
-            try:
-                logger.info(f"Loading model {model_name} from HuggingFace Hub or local path with kwargs: {model_kwargs}...")
-                model = SetFitModel.from_pretrained(model_name, model_kwargs=model_kwargs, trust_remote_code=True)
-                self.loaded_models[model_name] = model
-                return model
-            except Exception as e:
-                logger.error(f"Model {model_name} not found locally or on HF Hub: {e}")
-                raise ValueError(f"Model {model_name} not found.")
+        loading_path = model_path if os.path.exists(model_path) else model_name
         
-        logger.info(f"Loading model {model_name} from {model_path} with kwargs: {model_kwargs}...")
-        model = SetFitModel.from_pretrained(model_path, model_kwargs=model_kwargs, trust_remote_code=True)
-        self.loaded_models[model_name] = model
-        return model
+        logger.info(f"Loading model {loading_path} with kwargs: {model_kwargs}...")
+        
+        try:
+            # Instantiate the body directly to support model_kwargs (like flash attn)
+            # This bypasses SetFitModel.from_pretrained limitation with model_kwargs
+            model_body = SentenceTransformer(loading_path, trust_remote_code=True, model_kwargs=model_kwargs)
+            model = SetFitModel(model_body=model_body)
+            
+            self.loaded_models[model_name] = model
+            return model
+        except Exception as e:
+            logger.error(f"Failed to load model {loading_path}: {e}")
+            raise ValueError(f"Model {loading_path} failed to load.")
 
     def train_model(self, 
                     model_name: str, 
